@@ -1,0 +1,120 @@
+<html>
+<head>
+	<title>Javascript Demo - Bubbles</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<style type="text/css">
+	body {
+		/*background-color:rgb(251, 191, 22);*/
+		background-color: black;
+		color:white;
+	}
+
+	img {
+		position: absolute;
+		top:25%;
+		left:30%;
+		right: 0;
+		bottom:0;
+		width:650px;
+	}
+	</style>
+</head>
+<body>
+
+	<script>
+
+	//because we haven't learned how to do OOP in Javascript, we're going to just use regular functions.  Know that with OOP, there is even a better way to do this
+	var counter = 1;
+	var circles = {};
+	var circleRadius = 15;
+	var tinyCircleRadius = 5;
+
+	//read: http://stackoverflow.com/questions/3642035/jquerys-append-not-working-with-svg-element
+	//create an SVG element
+	function makeSVG(tag, attrs) {
+        var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+        for (var k in attrs)
+        {
+            el.setAttribute(k, attrs[k]);
+        }
+        return el;
+    }
+
+    //draws a star
+	function createCircle(cx,cy,r)
+	{
+		var color1 = Math.round(Math.random()*254);
+		var color2 = Math.round(Math.random()*254);
+		var color3 = Math.round(Math.random()*254);
+		var circle = makeSVG('circle', 
+			{ cx: cx,
+			  cy: cy,
+			  r:  r,
+			  id: 'circle_'+counter,
+			  style: 'fill: white'
+			  // stroke: 'red',
+			  // 'stroke-width': '1'
+
+			});
+
+		//the key will be the HTML id and the value will be the radius
+		circles['circle_'+counter] = { radius: r, colorOne: color1, colorTwo: color2, colorThree: color3};
+		
+		counter++;
+
+		document.getElementById('svg').appendChild(circle);
+	}
+
+	//go through all the circles and update its radius and background color
+	function updateCircles()
+	{
+		for(circle in circles)
+		{
+			var el = document.getElementById(circle);
+			// var color = 255-parseInt(circles[circle].radius/80*255);
+			circles[circle].radius = circles[circle].radius+1;
+			// var colorOne = circles[circle].colorOne;
+			var colorOne = circles[circle].colorOne;
+			var colorTwo = circles[circle].colorTwo;
+			var colorThree = circles[circle].colorThree;
+			//update the radius and the background color
+			el.setAttribute("r", circles[circle].radius);
+			el.setAttribute("style", "fill: rgba("+colorOne+","+colorTwo+","+colorThree+", .7); ");
+
+			//if the circle radius is greater than 80, remove the dom and remove its value in the circles variable/object
+			if(circles[circle].radius > 150)
+			{
+				document.getElementById('svg').removeChild(el);
+				delete circles[circle];
+			}
+		}	
+	}
+	function mouseClick () {
+		document.onclick = function(e){ createCircle(e.x, e.y, circleRadius)};
+	}
+
+	function mouseMove () {
+		document.onmousemove = function(e){ createCircle(e.x, e.y, tinyCircleRadius)};
+	}
+	//main loop
+	function mainLoop()
+    {
+    	//create a new circle of radius 15 every time the loop is run
+    	createCircle(Math.floor(Math.random()*document.body.clientWidth), Math.floor(Math.random()*document.body.clientHeight), circleRadius); 
+    	
+    	//update the circle size and background color
+    	mouseClick();
+    	mouseMove();
+    	updateCircles();	
+    }
+	
+	//execute the mainLoop funtion every 30 milliseconds
+	setInterval(mainLoop, 30);
+	// mainLoop();
+	
+	</script>
+
+	<svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+	<img src="Golden_State_Warriors_logo.png" alt="">
+</body>
+</html>

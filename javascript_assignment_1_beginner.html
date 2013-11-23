@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Javascript assignment 1 - Beginner - James</title>
+	<script>
+		x = [3, 5, 'Dojo', 'rocks', {name: 'Michael', title: 'Sensei'}];
+		for (var i = 0; i < x.length; i++) {
+			console.log(x[i] + ": " + typeof(x[i]));
+		};
+		x.push(100);
+		x.push([]);
+		console.log(x);
+		for (var i = 0; i <= 500; i++) {
+			i+=i;
+		};
+		console.log(i);
+		var d = new Date();
+		var n = d.getTime();
+		
+		for (var i = 1; i <= 1000000; i++) {
+				i+=i;
+			};
+		var o = new Date();
+		var s = o.getTime();
+		var y = s - n;
+		console.log(y);
+	</script>
+</head>
+<body>
+Create a program that goes through each value in array x, where x is [3,5,'Dojo', 'rocks', {name: 'Michael', title: 'Sensei'}]. Have it display each value of the array as well as the type of each value. For example, it should say or log "3: 'number', 5: 'number', 'rocks': 'string', ...".
+
+Add a new value in the array x using a push method. New value you should add is 100.
+Add a new array as the last member of the array then log x in the console and analyze how x looks.
+Create a simple for loop that sums all the numbers between 1 to 500. Have console log the final sum.
+Create another simple for loop that sums all the numbers between 1 to 1 million. Now, we want you to figure out how long in milliseconds this operation takes. Study http://www.w3schools.com/jsref/jsref_gettime.asp to learn more about how you can get the time in milliseconds. You can basically get the time of the operation by getting this timestamp before you start the for loop and getting another timestamp after the for loop is over. By subtracting the two timestamps, you can obtain how long this operation took.
+</body>
+</html>
